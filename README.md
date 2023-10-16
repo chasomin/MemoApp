@@ -11,6 +11,18 @@
 `MVC 아키텍처`
 `코어데이터`
 
+<br>
+<br>
+
+
+- StoryBoard 사용한 버전
+- StoryBoard 없이 코드로 UI 짠 버전
+- SnapKit 사용한 버전
+
+<br>
+<br>
+<br>
+
 ## 핵심 키워드
 ![iOS](https://img.shields.io/badge/iOS-000000?style=for-the-badge&logo=ios&logoColor=white)
 ![Swift](https://img.shields.io/badge/UIKit-0052CC?style=for-the-badge&logo=swift&logoColor=white)
