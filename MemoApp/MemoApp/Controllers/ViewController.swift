@@ -53,16 +53,10 @@ extension ViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "MemoCell", for: indexPath) as! MemoTableViewCell
-        // 셀에 모델(ToDoData) 전달
+        // 셀에 모델(MemoData) 전달
         let memoData = memoManager.getMemoListFromCoreData()
         cell.memoData = memoData[indexPath.row]
         
-        // 셀위에 있는 버튼이 눌렸을때 (뷰컨트롤러에서) 어떤 행동을 하기 위해서 클로저 전달
-//        cell.saveButtonTapped = { [weak self] (senderCell) in
-//            // 뷰컨트롤러에 있는 세그웨이의 실행
-//            self?.performSegue(withIdentifier: "ToDoCell", sender: indexPath)
-//        }
-//        
         cell.selectionStyle = .none
         return cell
     }
