@@ -83,5 +83,20 @@ extension ViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
         return UITableView.automaticDimension
     }
+    
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        let memoData = memoManager.getMemoListFromCoreData()
+        
+        if editingStyle == .delete {
+            memoManager.deleteMemo(data: memoData[indexPath.row]) {
+                print("삭제 완료")
+            }
+            
+            tableView.deleteRows(at: [indexPath], with: .fade)
+            
+        } else if editingStyle == .insert {
+            
+        }
+    }
 }
 
