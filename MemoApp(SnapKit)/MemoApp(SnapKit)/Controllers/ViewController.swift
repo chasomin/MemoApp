@@ -8,11 +8,11 @@
 import UIKit
 
 class ViewController: UIViewController {
-
+    
     private let tableView = UITableView()
-
+    
     let memoManager = CoreDataManager.shared
-
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -60,17 +60,14 @@ class ViewController: UIViewController {
     // 테이블뷰 자체의 오토레이아웃
     func setupTableViewConstraints() {
         view.addSubview(tableView)
-        tableView.translatesAutoresizingMaskIntoConstraints = false
         
-        NSLayoutConstraint.activate([
-            tableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 0),
-            tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 0),
-            tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: 0),
-            tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: 0)
-        ])
+        tableView.snp.makeConstraints { make in
+            make.top.equalTo(view.safeAreaLayoutGuide)
+            make.leading.trailing.bottom.equalToSuperview()
+        }
     }
     
-
+    
     
     // 네비바 상단 플러스 버튼 눌렸을때
     @objc func plusButtonTapped() {
@@ -93,19 +90,19 @@ extension ViewController: UITableViewDataSource {
         // (테이블뷰 그리기 위한) 셀에 모델(ToDoData) 전달
         let memoData = memoManager.getMemoListFromCoreData()
         cell.memoData = memoData[indexPath.row]
-       
+        
         cell.selectionStyle = .none
         return cell
     }
 }
 
 extension ViewController: UITableViewDelegate {
-
+    
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let detailVC = WriteViewController()
         let selectedMemo = memoManager.getMemoListFromCoreData()[indexPath.row]
         detailVC.memoData = selectedMemo
-
+        
         navigationController?.pushViewController(detailVC, animated: true)
     }
     
@@ -113,6 +110,21 @@ extension ViewController: UITableViewDelegate {
     // (ToDo에서 메세지가 길때는 셀의 높이를 더 높게 ==> 셀의 오토레이아웃 설정도 필요)
     func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
         return UITableView.automaticDimension
+    }
+    
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        let memoData = memoManager.getMemoListFromCoreData()
+        
+        if editingStyle == .delete {
+            memoManager.deleteMemo(data: memoData[indexPath.row]) {
+                print("삭제 완료")
+            }
+            
+            tableView.deleteRows(at: [indexPath], with: .fade)
+            
+        } else if editingStyle == .insert {
+            
+        }
     }
 }
 
